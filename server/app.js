@@ -2,8 +2,11 @@ console.log('Starting up the server');
 
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 
 app.use(express.static('server/public'));
+
+app.use(bodyParser.urlencoded({extended: true})); // this creates req.body
 
 var fishiesList = [{name: 'walleye'}, {name: 'pike'}, {name: 'muskie'}];
 
@@ -31,6 +34,12 @@ app.get('/fish/first/name', function(req, res){
 app.get('/fish/last/name', function(req, res){
   var lastIndex = fishiesList.length - 1;
   res.send(fishiesList[lastIndex].name);
+});
+
+app.post('/fish/new', function(req, res){
+  var newFish = req.body;
+  fishiesList.push(newFish);
+  res.sendStatus(200);
 });
 
 
