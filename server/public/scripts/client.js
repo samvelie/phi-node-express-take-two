@@ -37,7 +37,7 @@ $(document).ready(function(){
         getFishData();
       },
       error: function(error){
-        $('#errorMsg').append('BAD FISH NAME');
+        $('#errorMsg').append('TRY AGAIN FISHMASTER');
       }
     });
     setTimeout(function(){

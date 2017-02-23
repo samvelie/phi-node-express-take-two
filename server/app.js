@@ -36,15 +36,22 @@ app.get('/fish/last/name', function(req, res){
   res.send(fishiesList[lastIndex].name);
 });
 
-// for (var i = 0; i < fishiesList.length; i++) {
-//   fishiesList[i].name ==
-// }
+
 
 app.post('/fish/new', function(req, res){
   var newFish = req.body;
+  var isDupe = function(fishObject) {
+    for (var i = 0; i < fishiesList.length; i++) {
+          if(fishiesList[i].name.toLowerCase() == fishObject.name.toLowerCase()){
+            return true;
+          }
+    }
+  }
   if(newFish.name.length == '' || newFish.name.charAt(0)==' '){
     res.sendStatus(400);
-  } else{
+  } else if (isDupe(newFish)){
+    res.sendStatus(400)
+  } else {
     fishiesList.push(newFish);
     res.sendStatus(200);
   }
