@@ -8,7 +8,14 @@ app.use(express.static('server/public'));
 
 app.use(bodyParser.urlencoded({extended: true})); // this creates req.body
 
-var fishiesList = [{name: 'walleye'}, {name: 'pike'}, {name: 'muskie'}];
+var fishiesList = [
+  {name: 'walleye',
+  dateAdded: 'Wed Feb 22 2017'},
+  {name: 'pike',
+  dateAdded: 'Wed Feb 22 2017'},
+  {name: 'muskie',
+  dateAdded: 'Wed Feb 22 2017'}
+];
 
 app.get('/fish', function(req, res){
   res.send(fishiesList);
