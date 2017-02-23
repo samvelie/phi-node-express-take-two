@@ -4,62 +4,50 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+var fishModule = require('./fish-module.js')
+
 app.use(express.static('server/public'));
 
 app.use(bodyParser.urlencoded({extended: true})); // this creates req.body
 
-var fishiesList = [
-  {name: 'walleye',
-  dateAdded: 'Wed Feb 22 2017'},
-  {name: 'pike',
-  dateAdded: 'Wed Feb 22 2017'},
-  {name: 'muskie',
-  dateAdded: 'Wed Feb 22 2017'}
-];
+//fishiesList formerly here
 
 app.get('/fish', function(req, res){
-  res.send(fishiesList);
+  res.send(fishModule.fishiesList);
 });
 
 // handle the request for the first fish
 app.get('/fish/first', function(req, res){
-  res.send(fishiesList[0]);
+  res.send(fishModule.fishiesList[0]);
 });
 
 // handle the request for the last fish
 app.get('/fish/last', function(req, res){
-  var lastIndex = fishiesList.length - 1;
-  res.send(fishiesList[lastIndex]);
+  var lastIndex = fishModule.fishiesList.length - 1;
+  res.send(fishModule.fishiesList[lastIndex]);
 });
 
 // handle request for the name of the first fish
 app.get('/fish/first/name', function(req, res){
-  res.send(fishiesList[0].name);
+  res.send(fishModule.fishiesList[0].name);
 });
 
 // handle request for the name of the last fish
 app.get('/fish/last/name', function(req, res){
-  var lastIndex = fishiesList.length - 1;
-  res.send(fishiesList[lastIndex].name);
+  var lastIndex = fishModule.fishiesList.length - 1;
+  res.send(fishModule.fishiesList[lastIndex].name);
 });
 
 
 
 app.post('/fish/new', function(req, res){
   var newFish = req.body;
-  var isDupe = function(fishObject) {
-    for (var i = 0; i < fishiesList.length; i++) {
-          if(fishiesList[i].name.toLowerCase() == fishObject.name.toLowerCase()){
-            return true;
-          }
-    }
-  }
   if(newFish.name.length == '' || newFish.name.charAt(0)==' '){
     res.sendStatus(400);
-  } else if (isDupe(newFish)){
+  } else if (fishModule.isDupe(newFish)){
     res.sendStatus(400)
   } else {
-    fishiesList.push(newFish);
+    fishModule.fishiesList.push(newFish);
     res.sendStatus(200);
   }
 });
